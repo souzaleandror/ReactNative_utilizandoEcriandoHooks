@@ -561,3 +561,443 @@ Criar um Mock:
 Simulando uma API, criamos um Mock para receber dados como se fosse um serviço externo. Dessa forma, podemos aprender a nos comunicar com uma API sem de fato estar utilizando uma!
 Salvar um Estado:
 Imaginando que nossos dados externos mudam, nossa aplicação tem que acompanhar as mudanças dos dados e renderizar na tela as tais mudanças. Para isso, aprendemos a criar um estado que se encarrega de mudar o componente na tela sempre que algum dos dados é alterado.
+
+#### 10/12/2023
+
+@03-Hooks
+
+@@01
+Projeto da aula anterior
+
+Caso queira começar daqui, você pode baixar o projeto da aula anterior neste link.
+Lembre-se: caso baixe um projeto do zero, rode os comandos npm install para baixar as dependências do node e, caso for rodar para iOS, cd ios && pod install para baixar as dependências nativas de iOS.
+
+@@02
+Lista de produtores
+
+[00:00] Agora que já carregamos esse texto do nosso mock utilizando o ciclo de vida, como o componentDidMount, e também utilizando os estados dentro do componente de classe que vimos na última aula, vamos fazer a parte dos produtores.
+[00:16] Olhando aqui no nosso layout, podemos ver que esquecemos de mudar a cor da fonte, ainda está preta. Vamos ajustar a cor da fonte lá no nosso topo e partimos para fazer os produtores e dessa vez vamos utilizar funções ao invés de classe.
+
+[00:33] Começando pelo topo, dentro da nossa tela de topo, “src > telas > Home > componentes > Topo.js”, vamos vir aqui e vamos ajustar o texto de boas-vindas aqui nos estilos e vou colocar aqui color: e vamos colocar uma cor hexadecimal, que vai ser color: #464646, salvamos. Pronto, já temos uma cor um pouco mais clara aqui.
+
+[01:08] Aqui na legenda, também vamos colocar color: #A3A3A3, salvamos e temos também ali a cor do "encontre os melhores produtores" mais clara. Vamos salvar, e partir agora para os nossos produtores. Eu vou fechar esse arquivo aqui. Primeiro, precisamos criar o nosso componente de produtores.
+
+[01:37] Aqui dentro dos componentes da "home", vamos criar um novo aqui chamado "Produtores.js". Ele vai ser irmão do "Topo". Agora, vamos fazer o nosso componente mesmo, importar o react, import React from 'react', também vamos exportar como default a nossa função dessa vez, export default function Produtores(), e retornar alguma coisa.
+
+[02:08] Vamos colocar aqui, só para visualizarmos, um return <Text>Produtores</Text>, só para termos uma ideia de que estamos exibindo o componente certo, e precisamos importar, obviamente, o Text de React Native, import { Text } from 'react-native.
+
+[02:35] Agora utilizamos esse "Produtores.js" lá no nosso "index.js" junto com o "Topo.js". Voltamos aqui no "telas > Home > index.js". Aqui estamos retornando só o "Topo", return <> <Topo>, vamos retornar um fragmento para podermos agrupar mais, fazer mais de um retorno, e além do "Topo", vamos também retornar os produtores, <Produtores/>.
+
+[03:00] Salvando aqui. Temos que importar os produtores também, então import Produtores from './componentes/Produtores, salvamos e agora sim temos o texto "Produtores" que estávamos testando aqui dentro da nossa tela de produtores. Vou abrir aqui até para compararmos o "Topo".
+
+[03:34] Como que nós fazemos para que essa parte aqui de classe que fizemos, o componentDidMount, como que fazemos isso na forma de função? Porque não podemos declarar aqui esse componente componentDidMount, não vai estar dentro aqui da função porque aqui é estendido do "React.Component". Vamos ver como que fica isso em função.
+
+[03:56] No React Native e no React, podemos utilizar algumas funções específicas do React, então vamos importar daqui, vou botar aqui vírgula e as chaves, import React, { } from 'react', que vão fazer algumas coisas muito semelhantes com o ciclo de vida, que é o caso do useEffect, então vamos importar esse useEffect do React, vem lá do React, e vamos utilizar isso aqui dentro da nossa função.
+
+[04:31] Como que vamos fazer? Vamos chamar useEffect, simplesmente chamar a função e dentro dela vamos ter dois parâmetros. O primeiro parâmetro vai ser uma função do que queremos que seja executado e o segundo parâmetro, nesse caso, vai ser um array vazio, isso porque o useEffect pode fazer várias coisas, podemos fazer com que ele funcione parecido com component did mount passando um array vazio aqui. export default function Produtores() { useEffect(() => { }, [].
+
+[05:00] Quando temos um array vazio como segundo parâmetro, o que está aqui dentro vai executar assim que o nosso componente for carregado. Ele vai executar uma vez só quando o componente for carregado. O que queremos rodar aqui dentro? Queremos chamar o carregaProdutores que fizemos lá na nossa aula do Mock.
+
+[05:22] Vamos importar aqui no nosso "Produtores" o carregaProdutores, import { carregaProdutores } e vamos chamar lá do nosso caminho de serviços, então voltamos três pastas dentro de "serviços", { carregaProdutores} from '../../../serviços/carregaDados', e agora chamamos o carregaProdutores aqui dentro do UseEffect. Vou botar aqui const retorno = carregaProdutores().
+
+[06:06] Vamos dar um console.log(retorno) aqui para vermos o que está retornando para vermos o que está passando aqui, quando ser chamado. Vamos salvar. Aqui na nossa tela nada vai acontecer, precisamos olhar lá no terminal. Vamos vir aqui no terminal e temos um erro que tinha acontecido antes, mas temos aqui o log dos produtores, que era o que queríamos mesmo.
+
+[06:32] Temos a nossa lista, tem o título "Produtores", que é isso que estamos chamando aqui, depois que temos que trocar. Temos a nossa lista de produtores com a distância, quantidade de estrelas, a imagem, e temos podemos ver aqui que a imagem não ficou bem certa, está com o número 2, e o nome também do nosso produtor, e é justamente isso que queríamos.
+
+[06:54] Vamos dar uma olhada aqui no que fizemos fez exatamente aqui, chamamos o useEffect que é uma função dentro do React e esse useEffect vai fazer um efeito, vai fazer uma coisa quando o componente for carregado, e só uma vez. Nós vimos como faz dessa forma aqui no método de função e aqui no componente de classe vimos que podemos utilizar o componentDidMount.
+
+[07:21] Se vimos essas duas formas, qual é a melhor forma? Você pode estar se perguntando aqui. Você pode achar: "ah, classe aqui pode ser uma coisa mais complexa", às vezes você nem tinha visto classes ainda, você não está sabendo de todos os conceitos de classe, mas não se preocupe, vamos olhar na documentação do React para entender melhor o que são essas funções que utilizamos, como o useEffect e qual deles é recomendável utilizarmos.
+
+[07:52] Vamos vir aqui na documentação do React. Podemos entrar no React mesmo, não no React Native, na documentação e clicamos aqui em "Hooks > Introdução aos Hooks". O que são Hooks? Essa função que utilizamos, o useEffect é um Hook.
+
+[08:16] O Hook é uma nova adição do React, que faz com que possamos fazer coisas que poderíamos fazer no método de classe também dentro de uma função, sem precisar escrever uma classe, porque antes os componentes de função eram mais limitados que os componentes de classe, hoje não é mais assim, podemos utilizar os Hooks que fazem essas coisas para nós.
+
+[08:40] Vamos descer um pouco aqui, você pode assistir esse vídeo de introdução se você quiser, aqui vai estar em inglês, mas todo o texto está em português. Podemos ver que a motivação, ele fala que é difícil reutilizar a lógica de estado entre componentes e também podemos ver, principalmente, que os componentes completos se tornam mais difíceis de entender.
+
+[09:03] Utilizamos esse método componentDidMount que esta escrito aqui, ele está falando sobre esse método, e ele fala que dentro do componentDidMount podemos fazer um monte de coisa, podemos carregar esses dados, podemos vincular event listeners que fala aqui, várias coisas que não necessariamente tem uma ligação.
+
+[09:24] Você pode ter percebido que quando chamamos aqui no "Topo" o nosso atualizaTopo, fizemos de uma forma diferente, utilizamos uma função aqui. Isso porque se colocamos isso dentro do componentDidMount, o componentDidMount não tem relação com atualizarTopo. Atualizar o topo que queremos que seja feito, mas não necessariamente o componentDidMount está ali para isso.
+
+[09:50] Aqui em function Produtores, por exemplo, no useEffect, poderíamos criar vários useEffects diferentes, mais de um, para fazer as coisas de forma separada. Aqui no componentDidMount não, teríamos que fazer tudo junto, por isso que criamos uma função para separar.
+
+[10:08] Voltando à documentação, temos também uma outra frase aqui que ele coloca como título, que é as "classes confundem tanto pessoas quanto máquinas". Pode ser mais complexo de entendermos o componente no formato de classe, entender o this do JavaScript também que funciona de forma diferente para cada contexto.
+
+[10:28] O React lançou os Hooks que permitem que façamos tudo que quisermos fazer no formato de classe no formato de função também. O próprio React recomenda que utilizemos Hooks ou componentes no formato de função mesmo ao invés dos componentes antigos do formato de classe.
+
+[10:55] Pode ser que você veja em algum projeto antigo também esse formato de classe, então é importante que você entenda como que funciona, pelo menos o básico. Já vimos como fazer no formato de função e também entendemos que o formato de função é mais recomendável para fazermos nos novos projetos, fica um código mais legível, mais fácil.
+
+[11:22] Isso aqui foi o nosso componente com useEffect, no componente de classe íamos ter que criar classe, estendê-la, chamar o componentDidMount, chamar o render, tem vários outros processos ali para nós executarmos para fazer esse simples carregaProdutores.
+
+[11:41] No próximo vídeo, veremos como salvar esses produtores no nosso estado para podermos chamá-los aqui embaixo. Te vejo no próximo vídeo.
+
+@@03
+Armazenando produtores
+
+[00:00] Agora que já vimos como fazer para que o useEffect carregue alguma coisa, quando o nosso componente terminar de renderizar, de carregar, vamos partir para o Hook de estado porque é o Hook que vai armazenar os nossos dados dentro do nosso componente, armazenar de forma volátil.
+[00:22] Aqui temos o Hook de estado na documentação do React mesmo, podemos ver que precisamos só declarar a constante que vai ser um array que recebe dois parâmetros, que é igual a useState e um valor inicial.
+
+[00:38] O primeiro parâmetro, o primeiro index do array, digamos assim, é o valor que queremos pegar, é o nosso estado mesmo, podemos pegá-lo para exibir na tela, pegá-lo para fazer alguma conta, algo nesse sentido. O segundo é um método, esse método vai permitir que mudemos o nosso estado. Se quisermos mudar o nosso contador nesse exemplo aqui para 2 chamamos o setCount e passaríamos o que queríamos dentro do nosso setCount.
+
+[01:08] Vamos fazer isso nessa aplicação. Aqui no nosso projeto vamos abrir as nossas pastas aqui dentro de “src > telas/Home > componentes > Produtores.js” e vamos fazer o nosso Hook de useState. Primeiro precisamos importá-lo lá do React, aqui onde estamos importando o useEffect vamos importar o useState também. import React, { useEffect, useState } from 'react';.
+
+[01:34] Agora aqui na nossa função de produtores chamamos uma constante que vai receber um array de valores, serão duas posições. O primeiro é o valor do nosso estado, o nome do nosso estado, pode ser o título. Vamos ter dois estados o título e a lista de produtores, começamos com o título e o método que vai alterar esse título, podemos chamar de setTitulo, sinal de igual, useState que é o método que importamos e passamos um valor inicial que pode ser uma string vazia mesmo export default function Produtores(0 { const [titulo, setTitulo] = useState(' ');
+
+[02:22] Agora temos algumas observações aqui que podemos notar: sempre precisamos chamar o useState, esse Hook aqui de useState no começo da nossa função, ele está aqui no começo. Não podemos fazer um if aqui antes e chamar o useState. Não, ele sempre tem que ser declarado lá no começo. Podemos nomear isso daqui para o que quisermos, podemos colocar aqui ao invés de setTitulo atualizaTitulo, não tem problema, podemos colocar o nome que quisermos tanto no estado quanto no método que vai alterar esse estado.
+
+[02:56] O que é legal porque assim podemos fazer com que fique mais legível, que entendamos o que exatamente estamos alterando. Agora vamos usar esse título, temos aqui recebendo do carregaProdutoreso retorno vai ter o título dentro, podemos colocar aqui: setTitulo(retorno.titulo);
+
+[03:26] Aqui dentro do useEffect onde carregamos os produtores vamos pegar o retorno e setar o título desse retorno. Vamos testar se está funcionando, vamos pegar o título que está aqui no nosso useState que criamos e usá-lo aqui no lugar desse texto "Produtores". Eu vou apagar e salvar. Sumiu o texto "Produtores".
+
+[03:50] Agora vamos usar aqui com chaves, o título. return <Text>{ titulo }</Text>. Salvamos e voltou o título de produtores aqui, está funcionando, conseguimos salvar dentro do nosso estado do nosso componente de função dessa vez um estado, uma variável volátil que vai ser apagada quando a aplicação for fechada, então será resetado toda vez.
+
+[04:17] Agora precisamos também da nossa lista, vamos fazer aqui um setLista, mas primeiro precisamos criar o estado para ter esse método setLista. Aqui em cima, embaixo do estado que criamos do título vamos criar um novo estado que vai ser uma constante const [lista, setLista] = useState( [] );
+
+[04:55] No meu caso vou apagar esse console.log, se você quiser deixar para ter alguma referência quando você estiver estudando não tem problema. Vou apagar aqui, setLista dentro aqui do useEffect e embaixo do setTitulo, setLista(retorno.lista);
+
+[05:18] Agora vamos adicionar a nossa lista mesmo. Já aprendemos que podemos utilizar o FlatList, que é um método de chamar listas de forma mais otimizada e vamos precisar passar esse texto aqui como um header.
+
+[05:39] Primeiro podemos começar apagando esse daqui, o texto e adicionando no lugar dele o return FlatList e precisamos passar um parâmetro chamado data que é a nossa lista em si, vou passar aqui. Já adicionamos ela como um estado, por isso está tudo certo, podemos chamá-la de lista. return <FlatList data={Lista} />.
+
+[06:08] Para adicionarmos o título precisamos passar um header, ListHeaderComponent é igual a um componente. Inicialmente vou colocar aqui que é uma função que vai ter o text com o título dentro. ListHeaderComponent={() => <Text>{ titulo</Text>} />;. Passamos aquele text que estávamos retornando aqui para dentro do ListHeaderComponent.
+
+[06:38] Agora para renderizarmos o que tem dentro da lista nós também precisamos ter o renderItem que vai renderizar cada item da nossa lista. Para começarmos, podemos criar uma função que vai renderizar só o nome da lista, só para ficar os textos. Vou chamar aqui os texts só listando o nome do nosso produtor.
+
+[07:06] Aqui do renderItemprecisamos passar pela propriedade item, eu vou abrir essas chaves aqui para fazermos a desconstrução do objeto que está sendo passado como parâmetro, recebemos o item, dentro do nosso item vamos ter o objeto mesmo da nossa lista e podemos pegar diretamente o nome do nosso produtor.
+
+[07:31] Dentro do item, o renderItem já vem com esse objeto item, vamos pegar o nome e exibi-lo aqui como text nome entre chaves também. renderItem={({item: { nome }}) => <Text>{ nome }>/Text>} />;. Vamos salvar e agora temos o título da nossa lista que é "Os Produtores" e uma listagem com os nomes deles.
+
+[07:53] Vamos aproveitar também para estilizar o topo da nossa lista, o título da nossa lista que é esse ListHeaderComponent. Vamos transformar isso em uma função separada para ficar mais organizado, criamos uma constante aqui chamada TopoLista igual a uma função, vai ser uma função que é um componente no fim das contas e retornamos o título. const TopoLista = () => { return <Text>{ titulo }</Text> };.
+
+[08:33] E no lugar do ListHeaderComponent ser uma função colocamos o nosso TopoLista. ListHeaderComponent={TopoLista: />. Recortamos o text e colocou dentro da função de TopoLista para ele ser retornado separadamente. Salvamos e continua funcionando tudo certo.
+
+[08:51] Agora vamos criar os estilos. Vamos embaixo da nossa função no final do arquivo e criamos uma constante chamada estilos import { FlatList, Text, StyleSheet } from 'react-native';. Lembrando que temos que vir aqui em cima no React Native, na importação do React Native e importar também StyleSheet.
+
+[09:15] E podemos passar um objeto e o nome do nosso estilo pode ser título mesmo, título abre e fecha chaves para começarmos a declarar o que queremos ali dentro.
+
+[09:28] Podemos aumentar um pouco esse título colocamos em uma fontSize de 20, podemos também colocar o lineHeight de 32 já que mudamos a fontSize. Margem horizontal, podemos mudar na esquerda e na direita ao mesmo tempo, vamos colocar 16. MarginTop, para dar uma distância do topo, de 16 também e também podemos fazer um fontWeight para declarar que a grossura da fonte vai ser bold, vai ser uma fonte em negrito. const estilos = StyleSheet.create({ titulo: { fontSize: 20, lineHeight: 32, marginHoizontal: 16, marginTop: 16, fontHeight: 'bold', }
+
+[10:09] Salvamos e precisamos aplicar esse estilo título aqui dentro do nosso título. Na nossa constante TopoListavamos vir aqui no text e aplicar a propriedade Style sendo estilos ponto título. return >Text style={estilos.titulo}>{ titulo }</Text>. Salvamos e já temos os nossos produtores aqui.
+
+[10:30] Vamos também pegá-lo e fazê-lo da mesma cor do nosso título aqui que era #464646. Aplicamos aqui a color, color: '#464646'. Salvamos e temos aqui o nosso texto da mesma cor que está o nosso título da home mesmo.
+
+[10:53] Já vimos aqui como fazemos toda essa mesma forma de estados e também de ciclo de vida usando funções. Vimos que é preferível que usemos funções mesmo para que possamos usar os Hooks porque se utilizarmos no formato de classe não conseguimos utilizar os Hooks. Novas bibliotecas, novas features que possam surgir que usem apenas Hooks não serão possíveis se forem executadas em componentes no formato de classe.
+
+[11:24] Vimos como criamos um estado, vimos como podemos fazer efeitos colaterais na nossa aplicação usando o useEffect, passando um array vazio para que ele execute uma vez na nossa aplicação quando a nossa tela estiver carregada. Nós também estamos renderizando aqui a FlatList, uma coisa importante que ficou faltando aqui na FlatList também é o keyExtractor para declararmos qual é a key da nossa lista. Cada um desses precisa ter uma key.
+
+[11:56] Vamos aplicar aqui o keyExtractor e aqui também vai ser o método e não precisamos chamar o item primeiro, podemos chamar direto o que queremos. Vamos chamar o nome mesmo, o nome do restaurante como sendo key, porque aqui no nosso caso não vamos ter nenhum restaurante repetido. Quando você for fazer no ambiente real é legal que você use um ID, um código do produtor, por exemplo, alguma coisa assim como key.
+
+[12:22] Aplicamos aqui a key como sendo o nome. keyExtractor={({nome}) => nome};. Salvamos e nada vai acontecer aqui de diferença, mas vai fazer com que a nossa lista fique mais otimizada e fazer com que ela consiga se achar dentro da lista.
+
+[12:37] Outro ponto importante que nós também precisamos notar é que estamos, aqui no “index.js”, chamando o topo e produtores. O interessante seria que tudo estivesse dentro da nossa lista como header para que ela possa fazer o scroll e também para que ela possa se auto gerenciar. Aqui ela está fazendo scroll só nela mesma, queremos que o scrool fique na tela inteira.
+
+[13:04] Para isso precisamos passar o topo para dentro de produtores e chamá-lo junto do nosso topo de lista, vamos fazer isso. Aqui no “index.js” da “src > tela/Home > index.js” vamos passar <Produtores topo={Topo} />. Esse topo que estamos chamando aqui como componente vamos deletar daqui, podemos deletar até o fragmento para que ele retorne apenas os produtores mesmo.
+
+[13:36] Salvando, estamos passando como parâmetro o topo, sumiu o topo daqui porque apagamos. Vamos receber isso aqui na nossa lista de produtores, no componente de produtores vamos receber um parâmetro da nossa função que vai se chamar topo. O nosso topo é um componente seria legal que aqui ele ficasse com a primeira letra maiúscula vamos dar export default function Produtores({ topo: Topo }) {. Conseguimos renomear uma propriedade se quisermos.
+
+[14:08] Agora chamamos esse topo aqui dentro do TopoLista, vamos adicionar agora o fragmento dessa vez aqui dentro do TopoLista. O nosso text de título vai ficar dentro de um fragmento e antes dele vamos ter o topo como um componente. const TopoLista = () => { return <> <Topo/ <Text style=(estilos.titulo)>{ titulo }</Text> </> };
+
+[14:29] Salvamos e agora já temos o topo aqui novamente e temos a nossa lista funcionando aqui, scrollando a tela inteira. Ainda tem um detalhe aqui que ela não está a tela inteira, podemos ver que está cortando aqui. Podemos corrigir isso de forma muito simples, vamos aqui dentro do “app.js” que está na raiz do projeto e vamos precisar criar um estilo para a nossa Safe Area View.
+
+[14:56] A safe area view precisa está na tela inteira, precisa expandir para a tela inteira. Vamos fazer isso, vamos criar aqui uma constante estilos const estilos = StyleSheet.creat({ telas: { flex: 1. }, vou chamar de tela porque é tela inteira, e essa tela inteira vai ter flex 1. O flex 1 faz com que o componente se expanda verticalmente o máximo que ele puder. Nessa caso aqui que só temos um componente.
+
+[15:34] Só aplicamos aqui o style dentro da safe area view, estilos ponto tela. function App() { return <SafeAreaView style={estilos.tela}>. Vamos salvar e agora temos o scroll na tela inteira, não está mais cortando aqui o nosso texto.
+
+[15:49] Já preparamos os nossos produtores, já arrumamos o título, precisamos fazer os estilos dos produtores. Te vejo em breve para fazermos isso.
+
+https://pt-br.reactjs.org/docs/hooks-state.html
+
+@@04
+useEffect vs ComponentDidMount
+
+Primeiro, você aprendeu a usar o componentDidMount() para chamar uma função específica.
+Agora, nós aprendemos a usar o `useEffect()` para chamar uma função.COPIAR CÓDIGO
+O UseEffect é uma função que vem do React que, se o segundo parâmetro for uma lista vazia ([]), faz uma ação (apenas uma vez) quando um componente é carregado.
+
+Pensando nisso, qual a vantagem de usar o useEffect() ao invés do componentDidMount()?
+
+Componentes no formato de Classe são muito mais simples que componentes no formato de função.
+ 
+Alternativa correta
+O componentDidMount() possui a vantagem de não termos de criar uma classe inteira para chamar a função.
+ 
+Alternativa correta
+O useEffect() possui a vantagem de não termos de criar uma classe inteira para chamar a função.
+ 
+Alternativa correta!
+Isso mesmo! É muito mais vantajosa, para o desenvolvedor e para o compilador, a utilização de Hooks para chamar funções do que criar classes inteiras apenas para chamar uma simples função. Isso facilita a reutilização da lógica com estado entre vários componentes.
+
+@@05
+Estilizar a lista #1
+
+[00:00] Agora vamos arrumar a lista de produtores, vamos fazer esses cards bonitos, colocar imagem no título e a distância.
+[00:10] Nós não temos um card, um componente card no React Native, vamos ter que fazer esse card na mão. Vamos voltar aqui na nossa lista dentro de “src > telas/Home > componentes > Produtores.js”. Cada vez que passamos pela lista renderizamos um texto.
+
+[00:37] Para não termos que colocar todos esses componentes aqui dentro, vamos criar outro arquivo que vai ser o componente do produtor que vai ser o card mesmo. Aqui dentro dos componentes da Home vamos criar um novo componente chamado “Produtor.js”. Aqui fazemos o import do React import React from 'react';. E também vamos exportar como default o nosso function component produtor. export default function component Produtor() { };
+
+[01:14] Já vamos ter algumas coisas que vão vir dos nossos produtores. Por exemplo, o nome e se olharmos aqui nos mocks temos todo o resto das informações. Vai ser o nome, a imagem, a distância e as estrelas, vamos fazer isso. export default function Produtor({ nome, imagem, distancia, estrelas }).
+
+[01:31] Vamos receber aqui o nome, a imagem, a distância e as estrelas. É isso que vamos passar para o nosso produtor quando chamarmos ele aqui no Produtores, na nossa FlatList na hora de renderizar o item.
+
+[01:56] Para começar vamos fazer igual já estamos exibindo. Vamos retornar apenas um text com o nome do produtor, return <Text>{ nome }</Text>. Estamos retornando dentro do nosso produtor apenas o componente text.
+
+[02:19] Lembrando que temos que importar o componente text de dentro de React Native. import { Text } from 'react-native';. Agora podemos usar esse componente lá no lugar daquele text que estamos utilizando na nossa lista de produtores. Entramos dentro do componente Produtores, vai até o return <FlatList> e vamos alterar o renderItem.
+
+[02:43] Aqui não precisamos mais selecionar apenas o nome, eu vou remover aqui o parâmetro dois pontos abre e fecha chaves com o nome dentro, vai ser só o item mesmo. E dentro do item temos todas essas informações. Ao invés de chamarmos o text passando o nome vamos chamar o nosso Produtor, daqui a pouco importamos ele, e vamos fechá-lo aqui no mesmo componente não precisamos abri-lo. renderItem={({ item }) => <Produtor />}
+
+[03:13] Passaremos como parâmetro todos os parâmetros que estão dentro do item, {...item} />}. Abrimos e fechamos as chaves três pontos item, isso vai fazer uma desconstrução ali e passar cada parâmetro individual. Vamos ter o nome, a distância, a imagem e as estrelas, exatamente o que precisamos. renderItem={({ item }) => <Produtor {...item} />}.
+
+[03:37] Eu vou salvar e importar também o produtores. Vamos no topo do arquivo de produtores import Produtor from './Produtor';, porque ele é irmão aqui nos componentes, é um componente da home.
+
+[04:00] Vamos dar uma olhada no que está acontecendo aqui no simulador. Nada aconteceu, vou colocar uma letra "a" aqui só para ver se está atualizando corretamente. Todos os produtores agora tem um "a" no final, é isso mesmo está igual como estava antes.
+
+[04:17] Agora vamos começar a montar nossa estrutura, começando com adicionar uma view ao redor de tudo. Vamos adicionar esta view, podemos colocar o texto de nome aqui para dentro e ajustar a indentação aqui. Precisamos importar a view do React Native: import { View, Text } from 'react=native';.
+
+[04:44] A primeira coisa que temos olhando nosso layout aqui é a imagem, vamos adicionar a imagem aqui no começo. A imagem já sabemos, adiciona o componente image do React Native importando aqui também. import { View, Text, Image } from 'react=native';. O image vamos ter o source, a imagem porque já a recebemos por parâmetro, o source vai ser a imagem, depois arrumamos os estilos. E podemos também adicionar um accessibilityLabel, Image source={imagem} accessibilityLabel={nome} />.
+
+[05:16] Esse label vai ser mostrado para as pessoas com deficiência visual, pessoas que usam leitor de tela poderão entender melhor o que é essa imagem por esse accessibilityLabel. E podemos colocar aqui como nome mesmo, ao invés de vir a imagem porque a pessoa com deficiência visual não vai conseguir ver a imagem ela vai ver este texto, ela vai ler este texto, deixamos como nome mesmo.
+
+[05:44] É sempre legal adicionarmos accessibilityLabel para que todas as pessoas possam ter acesso à informação que está nessa imagem. Como nesse caso é uma logo não vai ter muita informação, mas se você está mostrando um diagrama, alguma coisa assim, você pode explicar melhor o que está acontecendo nessa imagem por meio desse accessibilityLabel.
+
+[06:06] Depois da imagem podemos adicionar uma nova view porque vai ter várias informações aqui ao lado, essas informações podem ser agrupadas em uma view. Adicionamos mais uma view e o nome que é o título aqui vai ficar dentro dessa view. <View> <Text>{ nome }</Text>. E temos também a distância, vamos adicionar mais um text aqui para a distância. <Text>{ distancia }</Text>.
+
+[06:39] Já formatamos a distância com a letra no final de metros. Se viermos aqui em “Produtores.js” vamos ver que tem o "m" no final, podemos só exibir isso mesmo. Vamos salvar e olhar como é que está ficando. Aqui no preview, e temos a imagem que está muito grande, temos o texto e os metros embaixo, a distância.
+
+@@06
+Estilizar a lista #2
+
+[00:00] Vamos começar a fazer os estilos desse nosso card. Primeiro, vamos criar a área do card aqui, colocar uma margem, uma padding aqui também, uma margem interna. Vamos fazer isso, começando com criar a nossa constante aqui dentro de Produtor, estilos const estilos = StyleSheet.create({ });. E aí vamos criar o estilo dessa view ao redor aqui que é a do cartão, vamos chamar de cartão, e aí podemos setar algumas propriedades aqui como backgroundcolor porque ela tem uma cor um pouco mais cinza.
+[00:45] Esse backgroundcolor vai ser backgroundColor: '#F6F6F6', temos a margem vertical que é a margem que estará entre um cartão e outro podemos colocar 8, marginVertical: 8, que vai fazer com que tenhamos na verdade 16, porque vamos ter a margem vertical que é em cima e embaixo de cada cartão, juntando a margem de cima de um cartão e a margem de baixo do outro cartão no fim temos 16 entre cada cartão. E podemos colocar uma margem horizontal dessa vez nas laterais de 16 também,marginHorizontal: 16 ele vai ter a mesma distância do topo, vai ser bem simétrico.
+
+[01:28] Vamos ver como é que está ficando. Na verdade, ainda precisamos setar o estilo, vamos adicionar a tag style dentro da nossa view maior <View style ={estilos.cartao}>. Agora sim, temos alguma coisa. Já temos a margem aqui, temos a distância entre os cartões, a cor do cartão mais cinza. Vou separar aqui para conseguirmos ver o simulador enquanto estamos fazendo as alterações.
+
+[02:02] Agora precisamos fazer essa borda arredondada aqui no cartão porque a borda está bem reta. Fazemos isso utilizando o borderRadius, igual no CSS se você já está acostumado, setamos aqui como 6 borderRadius: 6, por exemplo, e aí temos uma borda arredondada. Agora vamos adicionar o flexDirection como row para que as coisas fiquem uma ao lado da outra, adicionamos aqui com row, flexDirection: "row", salvamos e agora temos com que essa segunda view aqui fique toda aqui do lado.
+
+[02:44] Precisamos ajustar essa imagem, que está muito grande e vamos criar um estilo para a imagem, imagem: { width: 48, height: 48, };. Salvamos, precisamos setar aqui o estilo da imagem, dentro da tag image, <Image source ={imagem} style={estilos.imagem} accessibilityLabel; , agora a nossa imagem já está menor.
+
+[03:28] É interessante colocarmos na imagem uma border Radius para ela também ficar arredonda, aqui na imagem eu vou adicionar borderRadius: 6, e agora ela também está arredondada.Precisamos ainda ajustar a margem da imagem para que ela não fique colada no card, vamos adicionar uma margem vertical e como esse é um componente um pouco mais complexo não vamos adicionar padding diretamente no card, vamos controlar as margens dentro do componente interno do cartão.
+
+[04:09] Vamos adicionar uma margem vertical aqui de 16 para ficar a mesma distância que já temos padrão, em cima e embaixo temos 16 e vamos adicionar também a marginLeft de 16 para ficar um espaço antes, marginVertical: 16, marginLeft: 16,.
+
+[04:28] Agora temos a nossa imagem totalmente ajustada. Agora precisamos ajustar o nome e a distância, para isso precisamos adicionar os estilos na nossa view que tem dentro do nome e a distância.
+
+[04:46] Vamos chamar essa view de informações: {, que vai agrupar as informações, criamos um novo estilo chamado informações e dentro dele teremos algumas coisas, por exemplo, flex : 1 para que ele cresça até o final do nosso cartão, flexDirection: ‘row’ para que tanto o green quanto a distância fiquem uma do lado da outra, vamos adicionar aqui row.
+
+[05:20] Salvamos aqui e precisamos setar as informações, dentro da view vamos adicionar <View style={estilos.informacao}>. Pronto, está um ao lado do outro, mas ainda não está um em cada lado e para fazermos isso podemos colocar o justify content que é a forma como o conteúdo vai está ordenado como space-between. O space-between vai adicionar um espaço entre os elementos, between é entre um e outro em inglês. justfyContent: 'space-between',.
+
+[06:03] Agora temos o nome do nosso produtor de um lado e a distância de outro. Agora precisamos ajustar a margem, vamos adicionar a margem esquerda de 8 pixels marginLeft: 8, para ficar um pouco distante, não precisa ser tão distante, também podemos adicionar a margem vertical de 16 marginVertical: 16 para adicionarmos em cima e embaixo e marginRight de 16 também marginRight: 16,. Agora temos cada coisa em um canto.
+
+[06:44] Agora vamos ajustar a fonte do nome e da distância também porque está um pouco diferente. Vamos criar um novo estilo para o nome, já setamos ele aqui em cima no text, no text onde tem o nome vamos adicionar <Text style={estilos.nome}>{ nome }</Text>. E aí podemos ajustar o font size para 14, nome: { fontSize: 14, lineHeight: 22, fontWeight: "bold", }.
+
+[07:27] Salvamos e vai ficar em negrito aqui com o texto de um tamanho diferente. Agora vamos ajustar a distância também, vamos criar um novo estilo. Vamos no texto da distância e já setá-lo como estilo distância, aqui onde tem a distância sendo exibida coloco <Text style={estilos.distancia}>{ distancia }</Text>.
+
+[08:00] A distância vai ser um pouco mais simples, só vamos alterar o tamanho da fonte mesmo, distancia: { fontSize: 12, lineHeight: 19, };. Salvamos e parece que está legal. Faremos as estrelas mais adiante, mas ainda está faltando uma coisa aqui vamos olhar o preview.
+
+[08:26] Temos uma sombra aqui no nosso cartão, para fazer um cartão mesmo geralmente tem essa sombra. Como fazer essa sombra no React Native? Eu vou abrir o simulador de Android, que eu já deixei aberto, e temos a mesma coisa que está acontecendo aqui no simulador de iOS.
+
+[08:46] Para fazermos a sombra no Android é muito simples, vamos vir aqui no estilo do cartão e adicionar elevation e aí um número que queremos elevar, podemos ir testando para ver. Vou adicionar 4. elevation: 4,. Pronto, já temos a sombra dos nossos cartões.
+
+[09:20] Agora vamos dar uma olhada em como está no iOS. Nada aconteceu, porque elevation é uma propriedade apenas do Android, no iOS temos que fazer a sombra de forma diferente. Por isso é importante testar em várias plataformas, algumas coisas são diferentes.
+
+[09:44] Vamos fazer no iOS. Vou jogar o Android para cá e agora o iOS vai ficar aqui do lado. São algumas propriedades que temos que adicionar, eu vou adicionar aqui como um comentário "Android", o elevation é para Android. Vamos fazer aqui iOS, primeiro temos que escolher uma cor com o shadow Color, cor da sombra, essa cor vai ser preta, #000 // iOS shadowColor: "#000 e precisamos setar também um shadowOffset: { que vai ser um objeto e dentro vamos setar um width: 0 e heigth: 2, };.
+
+[10:38] Salvamos e ainda não aconteceu nada. Por fim, precisamos do shadow opacity shadowOpacity: 0.23 e, por fim, shadowRadius: 2.62, }. Vamos salvar e, agora sim, temos a nossa sombra no iOS. Como vocês podem ver, precisamos de vários componentes, várias propriedades diferentes para fazermos a sombra no iOS.
+
+[11:25] O legal é que você pode encontrar alguns simuladores de sombra na internet que fazem esse cálculo para todo para você. Você pode procurar e ele já gera o código tanto para Android quanto para iOS. Sempre é bom você testar nas duas plataformas pelo menos uma vez quando você terminar a aplicação, tentar testar na plataforma que você quer publicar para ver se está tudo certo com layout, se está tudo funcionando porque algumas diferenças existem mesmo assim.
+
+[11:57] Agora que já temos aqui os cartões estilizados tanto em iOS quanto em Android, podemos ver que não notifica nada no Android essas outras propriedades que adicionamos. Fizemos o nosso componente de produtor, vamos agora adicionar as estrelas para podermos fazer a classificação dos nossos produtores.
+
+@@07
+Componente de estrelas #1
+
+[00:00] Agora vamos criar o componente de estrelas, vamos fazer essas estrelas e fazer com que elas possam ser clicadas para selecionarmos uma avaliação diferente para o nosso produtor. Claro que essa avaliação vai ser totalmente em tempo de execução, se abrirmos e fecharmos o aplicativo ela vai resetar novamente e vai para uma avaliação randômica que já setamos no nosso Mock.
+[00:27] Vamos criar o nosso componente de estrelas. Como ele é um componente mais genérico, podemos adicioná-lo em uma pasta componentes dentro do próprio “src” supondo que queiramos usar as estrelas em outro lugar depois.
+
+[00:42] Vamos criar, dentro de “src”, uma pasta chamada “componentes” e dentro dela vamos criar a “estrelas.js”. É um componente, import React from ´react';. Nós também vamos exportar o nosso componente: export default function Estrelas() { };.
+
+[01:24] Para adicionar os parâmetros dentro da nossa função estrelas precisamos saber quantas estrelas são originalmente. Vamos pegar aqui a quantidade. Como vamos mudar essa quantidade internamente, vamos renomear essa quantidade para quantidade antiga, que é a quantidade original do nosso estrela, mas quando mudarmos pode ser uma quantidade diferente, quantidade: quantidadeAntiga;.
+
+[01:55] Vamos receber o parâmetro quantidade, mas aqui dentro do componente vamos tratar essa quantidade como quantidadeAntiga, vamos chamar dessa forma e não mais de quantidade. Nós também podemos fazer com que essas estrelas sejam editáveis, pode ser que você consiga clicar na estrela e a quantidade de estrelas mude.
+
+[02:21] Vamos passar aqui, editável, pode ser editável mesmo ou o nome que vamos chamar, mas por padrão vai ser false porque vamos ter as nossas estrelas aqui pequenas, dessa forma aqui, só que assim fica muito difícil clicar. Vamos fazer com que quando clicarmos no cartão as estrelas fiquem maiores e aí quando elas ficarem maiores conseguimos clicar e editá-las, editavel = false,.
+
+[02:51] Para isso vamos ter essa outra propriedade de grande, quando a estrela for grande podemos setá-la como editável. Vamos separar essas propriedades para que possamos deixar mais manipulável o nosso componente, mais genérico. Vamos setar aqui como false também, originalmente ela não vai ser grande, mas pode vir a ser, grande = false,.
+
+[03:14] Já temos as nossas propriedades da estrela. Agora precisamos começar a colocar as estrelas dentro da tela mesmo. Vamos chamar essa propriedade estrelas dentro do nosso Produtor, vamos chamá-la logo abaixo do nome. Dentro do produtor temos a nossa view de informações e o nome dentro, vamos criar outra view para armazenar só o nome e as estrelas.
+
+[03:52] Vamos adicionar essa outra view aqui dentro da view de informações e dentro dela vamos ter o nome e as estrelas. <View> <Text style={estilos.nome}>{ nome }</Text>. Importamos o componente que acabamos de criar: <Estrelas /> utilizando as estrelas e importando ele: import Estrelas from '../../../componentes/Estrelas';.
+
+[04:30] Precisamos passar as informações que estamos pedindo aqui na estrela. Para testarmos vamos retornar dentro do componente de estrelas alguma coisa, inicialmente pode ser só um text com estrelas ou um asterisco para simular uma estrela, return <Text>*</Text>.
+
+[04:48] Vamos importar o text de React Native: import { Text } from 'react-native';. Salvamos e aqui também precisamos salvar e pronto, temos uma estrela aqui embaixo. Era isso mesmo que queríamos, queríamos que ficasse embaixo do green. Não precisamos mais mexer muito nos estilos aqui do nosso produtor.
+
+[05:17] Vamos só passar como parâmetro o que estamos querendo receber que é principalmente a quantidade de estrelas. Vamos passar a quantidade como sendo igual abre e fecha chaves as estrelas, que é o já estamos recebendo aqui em cima. <Estrelas quatidade={estrelas} />, que é o que já estamos usando aqui em cima. Agora vamos, finalmente, usar essa propriedade.
+
+[05:44] Nada acontece ainda porque não temos nada printado aqui como um texto. Precisamos agora percorrer, fazer um for pela quantidade de estrelas, vamos sempre percorrer 5 estrelas e vamos preencher apenas as estrelas que estarão aqui nessa quantidade.
+
+[06:04] Primeiro vamos importar essa estrela de fato que é a imagem, já temos a pasta de imagens aqui dentro de “src > assets” e temos a estrela e a estrela cinza, temos a estrela preenchida e a não preenchida. Vamos importar essas duas estrelas aqui no nosso componente de estrelas: import estrela from '../assets/estrela.png';, esse é o nome dela “estrela.png”.
+
+[06:45] Agora vamos copiar aqui e aqui no VS Code podemos selecionar os dois nomes de estrela, selecionei estrela e usando “Command + D” ou "Ctrl + D" e eu posso editar os dois ao mesmo tempo e aí é estrela cinza. import estrelaCinza from '../assets/estrela.png';. Salvamos e nada acontece ainda.
+
+[07:10] Vamos trocar esse text aqui pela estrela, adicionamos uma image source igual a estrela. return <Image source=(estrela) />. Precisamos importar image de React Native aqui no lugar do text: import ( image ) from 'react-native'; e temos uma estrela gigantesca.
+
+[07:33] Vamos ajustar o tamanho da estrela com os estilos. const estilos = StyleSheet.create(); e vamos chamar esse estilo aqui de estrela mesmo. estrela: { }. Inicialmente podemos setar o width como 12 e o heigth como 12 também, width: 12 e height: 12, }. Precisamos aplicar esse estilo, dentro da imagem vamos adicionar return <Image source=(estrela) style(estilos.estrela) />.
+
+[08:19] Salvamos e agora temos uma estrela bem pequena embaixo do nome do nosso produtor. Agora como fazemos para que esse width e esse height sejam maiores quando a propriedade grande que for true, agora a propriedade grande é false. Precisamos fazer uma verificação aqui, se for grande vai ser 12, se não for grande vai ser 36, por exemplo, um tamanho maior.
+
+[08:49] Para fazermos isso precisamos com que esses estilos sejam uma função ao invés de serem estáticos aqui, só estamos criando. Vamos mudar um pouco, vamos fazer uma função. Os estilos, podemos chamá-los até de estilos função que é uma função que vai retornar o style sheet create e vamos ter grande como parâmetro, vamos ter esse valor aqui dentro do nossos estilos, const estilosFuncao = (grande| => styleSheet.create|{.
+
+[09:20] Se for grande, podemos fazer um if em line aqui, uma condição em line dentro da nossa linha, se for grande vai ser 36 se não vai ser 32. width: grande ? 36 : 32,. A mesma coisa aqui no height, se for grande vai ser 36 se não for vai ser 32. height: grande ? 36 : 32,.
+
+[09:39] Precisamos agora ter esses estilos dentro do nosso componente de função, porque agora temos esse estilo função. Fazemos assim: no começo da nossa estrela, do nosso componente aqui dentro da função, criamos uma constante de estilos e ela vai ser igual a chamada da nossa função passando como parâmetro o grande, const estilos = estilosfuncao(grande);
+
+[10:02] Salvamos e continua a mesma coisa porque não é grande aqui. Vamos mudar aqui o padrão de grande para true, já que não estamos passando esse grande pela estrela. grande = true,. Salvamos e pronto, agora temos a estrela grande. Podemos deixar false aqui: grande = false,. E está funcionando essa parte.
+
+[10:22] Agora vamos adicionar uma view aqui no return para que possamos retornar mais estrelas. Vamos adicionar duas estrelas aqui, precisamos importar a view também aqui do React Native. import ( view, Image, StyleSheet ) from 'react-native';. Salvamos e as duas estrelas estão uma embaixo da outra, mas não era isso que queríamos.
+
+[10:47] Precisamos ajustar essa view aqui, passar um estilo para ela e fazer com que o flex direction dela seja row para que uma fique ao lado da outra. Vou chamar aqui o novo estilo estrelas: { flexDirection: 'row',.
+
+[11:15] Setamos o nosso estilo nessa nova view que criamos style igual a estilos ponto estrelas. return <View style=(estilos.estrelas)>. Pronto, agora está uma ao lado da outra. Ainda podemos aqui ser um pouco mais chatos e colocar um margin right na estrela como sendo 2, para dar um espaço. marginRight: 2. Agora as nossas estrelas estão espaçadas uma ao lado da outra.
+
+@@08
+Componente de estrelas #2
+
+[00:00] Para adicionar todas as estrelas que queremos precisamos adicionar um for , um looping de repetição. Nós não conseguimos fazer um for da forma tradicional aqui dentro do nosso componente, vamos criar aqui mesmo, dentro da nossa função Estrelas, um render, um componente interno, um mini componente. Ele vai se chamar const: RenderEstrelas = () => { };.
+[00:35] Dentro desse render estrelas faremos o que quisermos, se quisermos fazer for fazemos for. Vamos fazer uma renderização, um for, e adicionar dentro de uma array as nossas estrelas. Vamos criar um array de estrelas e depois exibir esse array. Primeiro, vamos criar essa lista, pode ser uma constante lista estrelas que é o nosso array, a nossa lista. const listaEstrelas = [];. Vamos fazer um for let, que vai ser nosso contador, for (let 1 = 0; 1 < 5: i++) { };, vamos percorrer a nossa quantidade de estrelas.
+
+[01:28] A cada vez que percorrermos, vamos adicionar uma nova estrela nessa lista de estrelas. Vamos chamar a lista de estrelas ponto push e o push vai adicionar no fim da nossa lista alguma coisa, que é o nosso item. Podemos adicionar aqui a nossa imagem de estrela, vamos pegar essa imagem aqui e adicionar dentro do push mesmo. listaEstrelas.push <Image source=(estrela) style=(estilos.estrela) /> };. Vamos salvar e nada acontece ainda porque não estamos usando essa lista de estrelas e no fim retornamos essa lista estrelas. return listaEstrelas;
+
+[02:15] Agora ao invés de utilizarmos essas duas imagens vamos tentar utilizar aqui esse <RenderEstrelas />. Vamos salvar e agora temos 5 estrelas em cada um, todas preenchidas. Já temos um erro aqui, um alerta que diz que todos os filhos da lista precisam ter um key único e é verdade, sempre precisamos ter uma key. Ao criar um elemento dentro de uma lista precisamos adicionar essa propriedade key que deve ser única.
+
+[02:53: Vamos fazer isso, mas não teremos só a imagem aqui vamos ter uma imagem que é clicável porque vamos poder clicar nas estrelas depois. Vamos passar aqui ao redor dessa image que está dentro do push um touchable opacity que é aquele componente do React Native que permite que façamos um botão e que esse botão dê aquela sensação de opacidade quando clicamos. O <TouchableOpacity>; vai ser o botão da nossa estrela quando colocarmos a imagem aqui dentro e aqui nesse touchable opacity podemos adicionar a key como sendo o i mesmo, o iterador que vai ser 0 até 4. key=(1);.
+
+[03:46] Precisamos ainda de um onPress, vai ter alguma ação ao clicarmos nesta estrela, por enquanto podemos deixar essa ação vazia mesmo. onPress=({} => {});. E vamos ter também o disable que é quando ainda não podemos editar que será quando podemos, ou seja, negação exclamação editável. disable={!editavel};. Vamos salvar e nada acontece aqui o botão não está sendo clicado, vamos mudar aqui o default para grande e editável por isso adicionamos o true aqui tanto do grande quanto no editável. editavel = true, grande = true,. Se clicarmos agora podemos ver a opacidade funcionando.
+
+[04:33] Agora vamos fazer com que as estrelas sejam a quantidade certa que veio daqui, porque não estamos utilizando essa variável de quantidade ainda. Primeiro vamos setar um state para armazenar essa quantidade de estrelas, const[ quantidade, setQuantidade ] = useState(quantidadeAntiga);, a quantidade antiga é a quantidade que veio do nosso componente de estrelas que passamos lá pelo produtor.
+
+[05:13] Por padrão, vamos começar com a quantidade, mas vamos poder alterá-la quando formos clicando. Vamos usar essa quantidade e precisamos decidir qual é o source da estrela dependendo da quantidade, quando vamos passar é que vamos verificar se a quantidade de estrelas é maior do que a quantidade vamos começar a colocar as estrelas cinzas.
+
+[05:40] Vamos criar um método, antes do render, para ele escolher essa imagem. Vamos criar aqui constante get image que vai ser um método e nesse método vamos fazer um if, se o index que vamos passar aqui como parâmetro vai ser esse i aqui de cada laço do nosso for, se esse index for menor que a quantidade de estrelas que já recebemos vamos retornar a estrela pintada, const getImage = (index) => { if (index < quantidade) se não fazemos um return estrela cinza. { return estrela; }, return estrelaCinza; }.
+
+[06:39] E aí vamos utilizar esse get image no lugar do nosso source da estrela, aqui ao invés adicionarmos na imagem da estrela diretamente a estrela vamos chamar o get image passando o i como parâmetro, o nosso index. Image source=(getImage[i]} style=(estilos.estrela) />. Vamos salvar e agora já temos a quantidade de estrelas pintadas aqui.
+
+[07:03] Ainda falta podermos clicar nelas e alterar. Para isso vamos para o nosso onPress, quando fazemos o onPress vamos alterar essa função vazia para um método que vai setar a quantidade, podemos usar o nosso estado de quantidade que criamos antes, onPress={() => setQuantidade(i + 1)};. Isso porque aqui a quantidade começa do 0 e a nossa quantidade sempre vai ser 1 a 5.
+
+[07:37] Se eu clicar na estrela na posição 0, essa primeira aqui, quer dizer que temos 1 estrela, a quantidade vai ser 0 + 1 que é 1. Vamos salvar e vamos testar, agora estamos clicando nas estrelas e elas estão modificando.
+
+[07:57] Vamos voltar para o editável e grande false porque precisamos fazer com que quando clicamos no cartão é que essas coisas vão acontecer. Agora precisamos voltar para o nosso “Produtor.js”, no nosso componente produtor ao invés desse cartão ser uma view precisamos que ele seja um clicável, ele precisa ser um touchable opacity.
+
+[08:22] Vamos primeiro importar o touchable opacity do React Native, import ( TouchableOpacity ) from 'react-native';, e trocamos aqui a view por touchable opacity, precisamos trocar o fechamento dela também. A primeira e a última view serão touchable opacity e mantemos o estilo. Se salvarmos continua a mesma coisa, mas já podemos clicar.
+
+[08:52] Precisamos fazer com que quando clicamos as estrelas se expandam, fiquem maiores. Vamos criar aqui um state, um estado const igual a useState para que verifique se estamos expandindo ou não as nossas estrelas const [ selecionado, setSelecionado ] = useState();. Lembra de importar o useState ele já importou automaticamente, tem que importar de React e vai ser selecionado e setSelecionado. Vamos ter aqui se o nosso cartão está selecionado ou não, se ele vai ser expandido ou não.
+
+[09:33] Agora precisamos passar essa selecionado aqui para dentro da nossa estrela. Por padrão, o nosso selecionado vai ser falso porque vamos ter as estrelas pequenas e quando tivermos o selecionado como true aqui nas nossas estrelas vamos passar além da quantidade, editável.
+
+[10:00] Quando ele estiver selecionado ele é editável,quantidade=(estrelas) editavel=(selecionado) e também grande, a propriedade de expandir, grande=(selecionado) />;. Se quiséssemos fazer com que essas propriedades sejam independentes, se não quiséssemos deixar como grande só editável, poderia ser também. Nesse caso os dois vão ser a mesma coisa, selecionado.
+
+[10:27] Agora quando clicamos no nosso cartão, no touchable eu passo o nosso cartão precisamos adicionar a propriedade onPress e quando clicamos é que vamos alterar esse selecionado. Vai ser uma função que vai setar o selecionado como sendo um não selecionado, ele vai inverter sempre essa seleção, se for true vai virar false e se for false vai virar true, return <TouchableOpacity style={estilos.cartao} onPress=(() => setSelecionado(selecionado);
+
+[10:58] Vamos salvar e ver o que acontece. Cliquei aqui e expandiu, agora cliquei nas estrelas e ele trocou as estrelas, cliquei novamente e ele diminuiu. Já fizemos o nosso componente de estrelas que é clicável, editável e podemos expandi-lo e deixar de expandir. Inclusive, podemos adicionar vários aqui e o nosso scroll também está funcionando.
+
+[11:27] No próximo, vamos ajustar esse nosso componente de estrelas porque ele ficou bem grande, vamos separar um pouco ele e um outro componente. Te vejo no próximo vídeo.
+
+@@09
+Refatorando as estrelas
+
+[00:00] E agora que já terminamos todas as funcionalidades da nossa aplicação, já fizemos os cards que são clicáveis e podemos mudar as estrelas em tempo de execução, é claro, se fecharmos e abrirmos o aplicativo de novo as estrelas irão mudar porque é aleatório e não salva em algum lugar de fato, salva só no estado que é usado em tempo de execução. Podemos olhar novamente o nosso código e ver se tem alguma coisa que podemos refatorar e melhorar o nosso código.
+[00:31] Pensando mais no código mesmo e não na performance, podemos ver que esse componente de estrelas tem a função de exibir as estrelas que elas sejam grandes, pequenas, de clicar também e mudar. Poderíamos encapsular essa estrela em um componente de estrela e as estrelas usariam esse componente de estrela dentro.
+
+[00:55] Vamos criar um componente chamado estrela aqui dentro do "src/componentes", vou criar um novo arquivo aqui chamado “estrelas.js”. Importamos: import React from 'react'; e também vamos exportar como default o nosso componente, export default function Estrela() { }; e retornamos alguma coisa o componente de estrela em si.
+
+[01:31] O componente de estrela em si é esse touchable opacity, isso aqui que tem que estar dentro. Eu vou recortar daqui, retirar utilizando as teclas "Ctrl + X" e remover de dentro do render estrelas onde estamos fazendo o push, vou tirar o que está dentro do push e vou fazer return aqui. Agora temos que importar as coisas que vão ficar faltando aqui, precisamos do touchable opacity, vamos importar do React Native: import { touchableOpacity } from 'react-native';. Temos também uma imagem, vamos importar o image de React Native: import { touchableOpacity, Image } from 'react-native';
+
+[02:21] Não precisamos mais dessa key aqui porque já não é mais um for, aqui depois temos que passar lá de novo para o componente e o onPress aqui é o setQuantidade(i + 1);, mas não sabemos o que é i, não sabemos nem o que é a quantidade aqui dentro dessa estrela só sabemos que ela foi clicada, vamos fazer mais genérico aqui. Vamos fazer aqui estrela e nos parâmetros da estrela vamos ter um método que vai se chamar onPress parecido com esse touchable mesmo. export default function Estrela({ onPress }), quando ela for clicada vamos chamar esse método onPress.
+
+[02:57] Quem vai se preocupar com o setQuantidade e "i + 1" serão as estrelas, o nosso componente de estrela. No caso do disable vamos deixar mais genérico também e vai ser se a estrela está desabilitada ou habilitada. Podemos chamar de desabilitada mesmo export default function Estrela({ onPress, desabilitada }), se essa propriedade for true quer dizer que não vamos poder clicar na estrela, ela não vai ter o touchable, por isso passamos simplesmente disable=desabilitada.
+
+[03:32] Agora vamos ver como faremos para mostrar a imagem da estrela. A imagem da estrela vem por meio desse getImage que está no nosso arquivo de estrelas, nós que fizemos ele aqui. Vamos recortar esse método e colar aqui em cima do return da nossa função Estrela, movemos o método getImage que estava nas estrelas aqui para estrela. Vou alterar para ser getImagem já que estamos trabalhando com o código em português, para mostrar que esse código é nosso, uma função que nós fizemos. const getImagem = (index) => {.
+
+[04:12] Nós passávamos como parâmetro o index, não temos mais esse index, não sabemos que index é aqui, por isso não precisamos passar isso como propriedade. Na verdade, a propriedade da estrela mesmo, vai ser se ela está preenchida ou não.
+
+[04:30] Eu vou pressionar "Enter" aqui para deixar as propriedades uma abaixo da outra e outra propriedade vai ser aqui preenchida, eu vou passar para a estrela se ela vai está preenchida ou não. Aqui no getImagem se index é menor do que quantidade? Não, não sabemos disso será se preenchida, que vai ser um parâmetro que vou passar para a minha estrela, retornamos estrela se não retornamos a estrela cinza. const getImagem = (| =o= { if (preenchida) { return estrela; } return estrelaCinza; }
+
+[04:59] Essas estrelas nós não a importamos no arquivo de estrelas porque elas estavam aqui no nosso componente de estrelas. Eu vou recortar aqui das nossas estrelas e colocar aqui no nosso arquivo de estrela a estrela e a estrela cinza, a importação das nossas estrelas. import estrela from '../assets/estrela.png'; import estrelaCinza from '../assets/estrelaCinza.png';
+
+[05:22] Agora eu vou utilizar esse método getImagem aqui onde estamos pegando o source da imagem, eu vou tirar o i e vou acrescentar o m porque mudamos o nome para getImagem. <Image source={getImagem[]} style={estilos.estrela} />.
+
+[05:35] Agora já estamos pegando a imagem de acordo com a estrela preenchida ou não. Faltam ainda os estilos e só temos o estilo da estrela, aqui o estilo da estrela podemos copiar o estilo função todo. Não vou recortar porque tem algumas partes que ainda ficaram lá. Vou copiá-lo aqui no nosso estrela no final e aí vamos ter que saber se essa estrela é grande ou não, precisamos saber.
+
+[06:10] Vai ser mais um parâmetro que vamos receber quando chamamos a estrela grande, vou até colocar uns defaults aqui, uns padrões. Desabilitada vai ser true porque ela começa pequena, grande vai ser false vai começar pequena. export default function Estrela({ onPress, desabilitada = true, preenchida, grande = false, }).
+
+[06:32] Podemos remover esse estilo de estrelas porque esse estilo só está sendo usado lá nas nossas estrelas, o que queremos aqui mesmo é o estilo de estrela. Vou remover essas estrelas do nosso componente de estrela para ficar só a estrela mesmo. Chamamos o estilosFuncao aqui no começo do nosso componente e temos que passar como parâmetro se ele é grande ou não e podemos armazenar o resultado dessa função na nossa constante de estilos. const estilos = estilosFuncao(grande);
+
+[07:15] Aqui já estamos utilizando estilos ponto estrela e o nosso componente de estrela está completo. Agora vamos usar esse componente de estrela lá no nosso componente de estrelas, tanto que aqui já vemos que sumiu porque recortamos, recortamos do push da lista, por isso não temos mais nenhuma estrela.
+
+[07:34] Agora aqui no push das estrelas quando damos listaEstrelas.push vamos colocar a estrela <Estrela |>. Abrimos o componente de estrela que fecha nele mesmo e temos os parâmetros da estrela, precisamos passar o onPress, desabilitada, preenchida e grande, vamos passar essas variáveis.
+
+[07:57] Onpress vai ser o que tínhamos antes mesmo, tínhamos uma função que setava a quantidade sendo "i + 1". Aqui continuamos a ter essa lógica de não está dentro da estrela e sim de está fora, está genérica por fora da estrela, assim podemos fazer com que uma ação de dentro aconteça lá fora. <Estrela onPress=[() => setQuantidade(i + 1)]
+
+[08:31] Depois do onPress temos desabilitada que vai ser se ela está editável ou não. Ela vai estar desabilitada quando ela não for editável. <Estrela desabilitada={!editavel}/>. Por fim temos preenchida e grande. A estrela está preenchida quando o i for menor que a quantidade, o i é o número da estrela, a posição da estrela. Quando a posição for menor que a quantidade de estrelas máxima vai preenchendo, a partir do momento que o i passar desse limite de quantidade aí serão essas estrelas cinzas, as estrelas que não estão preenchidas. <Estrela preenchida={i < quantidade} />.
+
+[09:27] E vamos passar também a propriedade grande, podemos passar direto grande grande porque já recebemos como parâmetro as nossas estrelas. <Estrela grande={grande} />;.
+
+[09:37] Vamos ajustar os nossos estilos também. Agora não precisamos mais de uma função estilos aqui para estrelas porque só estávamos usando grande aqui na estrela que já foi lá para o outro componente. Vamos remover essa parte da estrela aqui, removemos também essa função e vamos chamar de estilos mesmo porque não é mais uma função. Então const estilos = StyleSheet.create({ estrelas:.
+
+[10:05] Agora podemos remover essa parte aqui dentro do nosso componente que chama o estilo função porque os estilos já estão sendo declarados aqui embaixo.
+
+[10:17] Vamos testar. Salvamos e temos um erro que não podemos encontrar a variável estrela. Claro, nós nem importamos ela. Vamos importá-la e também arrumar os outros imports. Primeiro começando com os imports, podemos remover a imagem, o touchable e otouchable opacity.
+
+[10:38] Esse touchable na verdade estava aqui por engano, talvez adicionamos por engano porque nem estávamos usando. import { View, StyleSheet } from 'react-native';. Vamos importar a estrela: import Estrela from './Estrela';, ela é irmã da estrelas.
+
+[10:59] Ainda faltou aqui nas estrelas importarmos o style sheet, vamos vir aqui: import: { TouchableOpacity, Image, StyleSheet } from 'react-native';. Salvando e recarregando temos as estrelas novamente nos lugares delas, mas temos um erro que diz que cada filho em uma lista tem que ter uma key única.
+
+[11:20] Ficou faltando adicionarmos a key porque removemos a key do touchable opacity e passamos novamente para estrela. Dentro do componente estrelas onde fazemos o push da estrela vamos passar uma key que pode ser o i. key=(i);.
+
+[11:38] Salvamos e não tem mais esse erro agora. Agora refatoramos as nossas estrelas para que ficasse um componente de estrelas e um componente da estrela mesmo, da parte só da estrela que vai procurar a imagem, aqui tem várias lógicas dentro dela. E as estrelas fazem essa junção de todas as cinco estrelas.
+
+[12:03] Feita essa refatoração é importante que você olhe o seu código mesmo e veja se precisa refatorar para que o código fique melhor visível para as outras pessoas que podem ter acesso a esse código ou para você mesmo no futuro lembrar o que você fez depois. Fica mais fácil você entender refatorando as coisas e deixando sempre mais legível possível.
+
+[12:26] Como podemos melhorar e usar mais Hooks na nossa aplicação? Em breve vamos avançar com os Hooks e vermos mais Hooks que o React Native disponibiliza.
+
+@@10
+Para saber mais: Alternativas para o iOS
+
+Nesta aula, prestamos atenção aos estilos tanto para Android quanto para iOS. No entanto, é muito comum que não tenhamos o hardware específico da Apple para que possamos testar no iOS.
+Pensando nisso, será que existem alternativas mais baratas para que possamos validar nossa aplicação para iOS também?
+
+Sim! Não são opções gratuitas, porém, hoje em dia é possível alugar máquinas e acessá-las via internet, como os serviços:
+
+MacinCloud;
+Virtual MacOSX.
+Também é possível, porém não recomendado e com alta incidência de incompatibilidades de hardware, criar máquinas virtuais dentro de outros sistemas operacionais, instalando o MacOS.
+
+Caso você queira usar alguma dessas alternativas, ainda sim precisa seguir os passos do artigo de configuração para preparar o ambiente de iOS na sessão "Aplicações com React Native iOS".
+
+https://www.macincloud.com/
+
+https://virtualmacosx.com/
+
+https://www.alura.com.br/artigos/configurando-o-ambiente-react-native?_gl=1*1q8r1v6*_ga*MTgwMzIzMjk2Ni4xNjg4ODE5OTcz*_ga_1EPWSW3PCS*MTcwMjQxOTA1Ni4xMjguMS4xNzAyNDIwNjI1LjAuMC4w*_fplc*V0JKS2Z1OG1ITFdMZmROU2EyOGh2dVNZcFRBVnBxVUtNV2dGZHdOcUNsRkYlMkJLdkUxYW9PTjhiTThXNE5TNlQxNVNkc1FPJTJCYlJiS0NCYkpzdzhHM3FlSHB4enI5MGNQcjNWUFFBYnF3b2RzODE0M3kyMVR2UlolMkZsOGhDS05BJTNEJTNE
+
+@@11
+Faça como eu fiz
+
+Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Caso já tenha feito, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com a próxima aula.
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
+@@12
+O que aprendemos?
+
+Nessa aula, você aprendeu a:
+Modificar a lista de produtores do app Orgs:
+Aprendemos o que são os Hooks, uma nova adição do React Native que nos permite a fazer ações de classe dentro dos componentes de função. Vimos um exemplo de Hooks que é o UseEffect e como os componentes de função são mais recomendados.
+Usar o State do Hook:
+Aplicamos o Hook de useState para criar um estado na lista de produtores do app Orgs.
+Criar uma lista de produtores:
+No app Orgs, criamos uma lista de produtores. Renderizamos os textos da lista com o renderItem. Implementamos estilos para mostrar uma lista bem bonita no app!
+Estilizar a lista de produtores:
+Estruturamos a lista, adicionando uma View. Depois inserimos as imagens dos produtores, com um accessibilityLabel para permitir que pessoas cegas possam usar o app! Aplicamos estilos de cor, margens, borda arredondada, alinhamento, distância, tamanho da fonte, sombra no cartão.
+Adicionar as estrelas para classificar produtores no App:
+Criamos, na pasta src, o componente de estrelas que podem ser clicadas pelo usuário para avaliar os produtores. As propriedades foram a quantidade, tamanho etc. Aplicamos um estilo de tamanho e largura condicionais em função das propriedades das estrelas.
+Refatorar as estrelas:
+Para diminuir o tamanho do código, organizamos e enxugamos o componente de estrelas.
