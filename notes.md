@@ -1001,3 +1001,268 @@ Adicionar as estrelas para classificar produtores no App:
 Criamos, na pasta src, o componente de estrelas que podem ser clicadas pelo usuário para avaliar os produtores. As propriedades foram a quantidade, tamanho etc. Aplicamos um estilo de tamanho e largura condicionais em função das propriedades das estrelas.
 Refatorar as estrelas:
 Para diminuir o tamanho do código, organizamos e enxugamos o componente de estrelas.
+
+#### 18/12/2023
+
+@04-Avançando com Hooks
+
+@@01
+Projeto da aula anterior
+
+Caso queira começar o curso daqui, você pode baixar o projeto da aula anterior neste link.
+Lembre-se: se você baixar um projeto do zero, rode os comandos npm install para baixar as dependências do node. Se for rodar para iOS, digite cd ios && pod install para baixar as dependências nativas de iOS, beleza? Depois de fazer isso, você pode prosseguir no curso!
+
+@@02
+Criando um Hook
+
+[00:00] Agora já temos a nossa aplicação pronta, já otimizamos algumas coisas nas estrelas. Vamos avançar um pouco mais com Hooks. Mas antes de vermos outros Hooks que o React Native nos proporciona, vamos criar nosso próprio Hook, é possível que você crie seu próprio Hook.
+[00:23] Para fazer isso, primeiro vamos identificar algum lugar onde possamos utilizar esse Hook. Aqui dentro de “src > Telas/Home > componentes > Produtores.js", vamos ver como carregamos os produtores da nossa aplicação. Temos o useEffect aqui que vai chamar o método de carregar produtores e vamos setar o título, setar a lista e isso vai está dentro de um estado.
+
+[00:53] Vamos simplificar isso em um Hook chamado UseProdutores, vamos chamar o Hook que vai nos retornar o título e a lista sem que precisemos fazer tudo isso aqui dentro do componente de produtores. Dentro de "src" vamos criar uma pasta chamada "hooks" e aí podemos criar um arquivo chamado “useProdutores.js”.
+
+[01:29] Agora que criamos um arquivo js começamos importando React, só que não precisamos fazer isso porque não vamos retornar nenhuma tag aqui dentro, mas vamos usar sim o useState e useEffect, precisamos só importá-los. import { useState, useEffect } from 'react';
+
+[02:06] Importamos isso daqui e agora vamos exportar como default uma função como se estivéssemos fazendo um componente. export default function useProdutores() {. O Hook também é uma função, por isso vamos retornar alguma coisa.
+
+[02:32] O Hooke de useState retorna título, o estado, e uma função para setarmos o estado e podemos passar por um parâmetro também o estado inicial. Aqui chamamos produtores e temos como retorno o título e a lista, é isso que vamos retornar.
+
+[02:53] Vamos retornar aqui entre um array, retornamos um array que vai ter o título e a lista. return [titulo, lista];. Nós temos essas variáveis como estados, podemos pegar esses estados aqui dentro de produtores, o estado de título e o estado de lista e jogar aqui dentro do useProdutores. export default function useProdutores() { const [titulo, setTitulo] = useState(' '); e const [lista, setLista] = useState( []);
+
+[03:18] Passamos os estados que estavam lá nos produtores para dentro do Hook “useProdutores.js”. Agora já temos o nosso título e a nossa lista, essas variáveis já existem aqui. Fazendo isso, usando um Hook aqui dentro dessa função, já transformamos essa função em um Hook. Ela é como se fosse um componente, mas sem retorno de tags aqui dentro, retornamos estados mesmo.
+
+[03:53] Agora precisamos fazer o useEffect lá dentro também, vamos copiar esse useEffect aqui e colocar dentro do “useProdutores.js”. Já importamos useEffect, temos o retorno que vai carregar produtores, por isso precisamos importar o carregar produtores também.
+
+[04:12] Copiamos aqui e colamos aqui, mas temos que nos atentar que estamos em outra pasta agora, estamos dentro da pasta “hooks”, o carregaProdutores está aqui em serviços. Vamos voltar somente uma pasta, voltamos uma pasta e entramos em serviços. Ao invés de voltar três pastas, volta só uma pasta. import { carregaProdutores } from './servicos/carregaDados';
+
+[04:41] Vou salvar e nada está acontecendo porque não estamos chamando esse Hook ainda. Já temos aqui o setTitulo e o setLista que já estão inclusos no nosso useState, já temos esses métodos. Teoricamente o nosso Hook já é para estar funcionando.
+
+[04:57] Agora temos tudo isso aqui que é o que passamos para o Hook. Eu vou comentar nesse caso só para verificarmos a diferença entre um código e outro, eu vou selecionar aqui e vou apertar "Command + barra" ou "Ctrl + barra", caso esteja no Windows. Esse aqui eu também posso comentar porque não estamos usando.
+
+[05:20] Agora ao invés de importarmos isso aqui e fazer tudo isso, primeiro vamos importar o nosso Hook. import useProdutores from '../../../hooks/useProdutores;, voltamos três pastas, entramos em hooks e chamamos o useProdutores. Agora usamos o nosso Hook de forma muito simples, criamos uma constante que vai ter um array e que por sua vez vai ter o valores que estamos retornando aqui que são o título e a lista const [titulo, lista] = useProdutores();
+
+[06:17] Agora vamos salvar e nada mudou porque já está funcionando, já temos aqui o nosso título e a nossa lista sendo buscados diretamente do nosso Hook. Olha só como fica mais legível, temos o useProdutores que retorna o título e a lista, só isso. Não precisamos mais criar um estado para o título, criar um estado para a lista, fazer o useEffect para que ele carregue cada vez que esse componente for carregado, podemos simplificar as coisas apenas em useProdutores.
+
+[06:55] Se quiséssemos, por exemplo, chamar esses produtores em alguma outra tela da nossa aplicação no futuro bastaria fazer isso daqui, não precisamos criar os estados e o useEffect novamente, o que é bem legal.
+
+[07:11] Vou apagar aqui os comentários, mas fica muito visível que diminui o código dentro do nosso componente de produtores. Vou apagar os comentários e temos isso daqui. Nós importamos o Hook de useProdutores e usamos ele no nosso componente de produtores. E no useProdutores só passamos o que estava dentro dos Pordutores para cá mesmo, muito simples.
+
+[07:42] Nos próximos vídeos vamos ver como utilizamos Hooks mais avançados do React Native. Já fizemos o nosso próprio Hook, agora vamos utilizar outros Hooks aqui porque temos o useEffect, o useState, mas se digitarmos aqui use tem vários outros Hooks que podemos usar que vêm do React também. Te vejo em breve.
+
+@@03
+Hook de redução
+
+[00:00] Nessa aula veremos sobre o Hook de redução. Vamos dar uma olhada em "Telas/Home > componentes > Produtor.js", no nosso Produtor temos o nosso estado selecionado, quando temos o nosso card selecionado ele vai expandir e quando clicamos ele sempre troca, ele sempre é setado como uma negação. Clicamos, ele expande, clicamos e ele "desexpande", ele seleciona e desseleciona.
+[00:40] Podemos simplificar isso e passar esse método de inverter já aqui dentro, como se fosse dentro do useState que já dizemos o que vai acontecer quando chamarmos o método. Não vamos utilizar o useState, nesse caso vamos usar o useReduce.
+
+[00:58] Vamos dar uma olhada na documentação o que ele fala sobre esse useReduce. Eu vou abrir a documentação dessa vez do React e não do React Native porque os Hooks existem tanto no React quanto no React Native, eles vêm do React mesmo.
+
+[01:13] Vamos digitar aqui “hooks” e já temos aqui “hooks api de referência”, vamos ver essa API de referência dos Hooks, na documentação acessível neste link.
+
+[01:31] Aqui já temos vários Hooks que o React Native disponibiliza, temos alguns Hooks básicos, o useState, o useEffect que já vimos, e temos alguns Hooks adicionais, também tem o useContext que provavelmente veremos mais para frente em outro curso. O useReduce está aqui como um Hook adicional.
+
+[01:53] Vamos clicar nele e vemos que ele é uma alternativa para o useState. Inclusive, se você quiser acessar isso em português, pode vir aqui em languages e trocar para português do Brasil.
+
+[02:15] Vamos abrir aqui novamente a API de referência dos Hooks dessa vez em português e é só colocar um “pt-br” na frente da URL. Temos o useReduce que é uma alternativa para o useState e ele aceita um tipo que vai ser uma função, primeiro vai ser um estado e uma ação que retorna um novo estado.
+
+[02:39] Aqui temos um exemplo, mas podemos ver que na documentação fica bem complexo. Temos o estado, um dispatch que vai ter um reducer, um método que vai ter uma ação, um tipo, podemos simplificar muito isso.
+
+[02:55] Isso aqui no caso de você estar habituado com Redux, por exemplo, você já vai entender mais ou menos o que é isso aqui. Vamos usar, na nossa aplicação, uma coisa que faz mais sentido para nós, que se aproxima da simplicidade.
+
+[03:11] Vamos usar o useReducer dessa forma aqui, vamos ter um estado que vai ser o selecionado, vamos ter um dispatch que vai ser o método que vai ser o método que vai fazer o toggle, que vai trocar. Quando chamarmos esse dispatch ele vai trocar o valor do estado, invertê-lo.
+
+[03:33] Aqui o useReducer, vamos passar primeiro um método que vai fazer isso, que vai fazer a inversão do nosso estado e o estado inicial que vai ser false porque inicialmente ele não estará selecionado.
+
+[03:49] Vamos fazer isso. Aqui temos o nosso useState, vou comentá-lo para escrevermos aqui embaixo. const [selecionado, inverterSelecionado], invertemos e fazemos igual a useReducer. const [selecionado, inverterSelecionado] = useReducer;
+
+[04:25] Lembrando que precisamos importar o useReducer aqui do React, eu apertei enter e ele já importou sozinho. Agora eu vou dar um enter aqui só para vocês conseguirem ver melhor, vamos ter o primeiro parâmetro um método, esse método vai inverter a seleção vai pegar o selecionado e vai inverter.
+
+[04:47] Vamos olhar aqui, o que temos aqui no reducer são dois parâmetros: o estado e a ação. No nosso caso não vamos precisar da ação, não precisamos ter um tipo, não vai ter esse switch case aqui só queremos fazer uma coisa, só queremos inverter.
+
+[05:08] Vamos ter o nosso estado, vamos ter o nosso estado atual. E dependendo do que retornamos vamos mudar o nosso estado atual. O primeiro parâmetro é o selecionado, é o estado atual e queremos inverter o estado atual, vamos retornar a inversão do selecionado. const [selecionado, inverterSelecionado] = useReducer( (selecionado) => !selecionado;
+
+[05:30] Já temos o nosso método que pega o estado atual que é o selecionado e invertemos esse selecionado. Vamos fazer uma vírgula aqui e o segundo parâmetro é o nosso valor inicial que vai ser o mesmo que está no useState false. const [selecionado, inverterSelecionado] = useReducer( (selecionado) => !selecionado, false );
+
+[05:50] Agora vamos usar esse método inverter selecionado ao invés desse setSelecionado invertido que temos aqui no onPress do touchableOpacity. Vamos apagar tudo isso aqui e é só jogá-lo aqui como o inverterSelecionado não precisamos mais fazer esse outro método.
+
+[06:12] Vamos salvar aqui e abrir a nossa aplicação. Já recarregou aqui e se clicarmos continua funcionando. Imagina agora se tivéssemos uma lógica muito complexa aqui dentro, aqui só estamos invertendo, mas se tivéssemos uma lógica muito complexa poderíamos fazer tudo isso aqui em cima no useReducer e chamamos apenas esse método que é chamado de dispatch. Esse método faria essa lógica toda dentro do reducer.
+
+[06:45] Com isso simplificamos o nosso inverterSelecao. Essa inverterSelecao é uma coisa mais para visualizarmos como pessoa desenvolvedora. Nós, desenvolvedores, veremos essa mudança, mas para o usuário pouco importa.
+
+[07:09] Nos próximos vídeos vamos ver Hooks que fazem com que o usuário perceba essa mudança, que utilizem o nosso aplicativo. No caso de ser um aplicativo muito pesado, vai melhorar a experiência para o usuário como um todo na questão de performance.
+
+[07:27] Vou apagar essa linha que está como comentário e nos próximos vídeos vamos fazer isso. Te vejo em breve.
+
+https://pt-br.reactjs.org/docs/hooks-reference.html
+
+@@04
+Hooks existentes
+
+Imagine que você foi contratado por uma empresa de jogos (Nintendo) para criar um aplicativo de celular.
+Nesse aplicativo, existe um botão no formato de Pokébola, e quando você clica nessa Pokebola, ela abre.
+
+Porém, o código para alterar a Pokébola não está simplificado:
+
+const [ clicado, setClicado ] = useState(false);
+
+return <TouchablePokeball
+        style={style.pokeball}
+        onPress={() => setClicado(!clicado)}
+>
+...COPIAR CÓDIGO
+Pensando nisso, como podemos melhorar esse código usando o useReducer?
+
+const [ clicado, inverterClicado ] = useReducer(
+(clicado) => !clicado,
+false
+);
+
+return <TouchablePokeball
+        style={style.pokeball}
+        onPress={inverterClicado}
+>
+...
+ 
+Alternativa correta!
+Acertou! Muito bem! Usando o useReducer, podemos simplificar a alteração do estado da Pokébola quando clicamos nela, e tem mais: podemos reutilizar o código com muito mais facilidade agora!
+
+@@05
+Hook de memória
+
+[00:00] Agora que já usamos os Hooks para melhorar a qualidade do nosso código, utilizamos o useReducer e criamos o nosso próprio Hook customizável, vamos pensar um pouco em como podemos melhorar a performance da nossa aplicação usando Hooks.
+[00:13] Vamos focar aqui na distância do nosso produtor, temos um número e metros. Isso vem dos mocks “produtores.js”, aqui temos a distância que é um número aleatório entre 1 e 500 mais letra "m" no final. Vamos supor que queiramos botar esse "m" lá dentro do nosso produtor usando uma função, ao invés de já devolvermos ele aqui com o "m".
+
+[00:41] Caso queiramos ordenar por distância, por exemplo, pode ser uma boa termos um número aqui e não essa string. Vamos remover, eu vou utilizar as teclas "Ctrl + F" aqui para pesquisar tudo o que é esse gerarNumeroAleatorio e aí eu vou expandir aqui para fazer um replace para gerar número aleatório de 1 a 500 sem o "m" no final. Vai ser basicamente igual está nas estrelas, só que de 1 a 500.
+
+[01:08] Vou clicar aqui para atualizar os 5 produtores. Agora temos só um número, não temos mais uma string aqui, vou salvar os nossos produtores. Já atualizei aqui, como é um número aleatório sempre vai mudar e atualizou aqui para ficar só o número sem o "m" no final.
+
+[01:29] Agora vamos vir aqui nos nossos produtores, dentro de “telas/Home > componentes > Produtor.js” e aí aqui dentro de Produtor vamos adicionar esse m. Vamos vir aqui depois do reducer que fizemos, vou criar uma constante chamada distanciaEmMetros e aqui vai ser uma função que vai fazer essa distância em metros em si. Ela vai retornar basicamente a mesma coisa que tínhamos lá, a nossa distância vou abrir essas crases aqui, usar o cifrão e os colchetes para chamar a distância e um "m" no final. const distanciaEmMetros = () => { return '${distancia}m' }
+
+[02:13] Aí eu vou chamar essa distância em metros aqui em baixo para que ela seja armazenada em uma string, distância texto igual a distância em metros. const distanciaTexto = distanciaEmMetros();.
+
+[02:32] Aí podemos remover esse método const distanciaEmMetros aqui de dentro porque ele não necessariamente está utilizando essa variável distancia, podemos passar essa variável por parâmetro, distancia e metros vai receber a distância e jogamos esse método aqui para fora do nosso componente, supondo que ele pode vir até de um arquivo externo. const distanciaEmMetros = (distancia) => { return `${distancia}m`;
+
+[02:53] Distancia e metros vamos ter aqui fora que vai retornar a distância e aqui dentro vai ser distância texto igual a distância em metros passando como parâmetro a distância. const distanciaTexto = distanciaEmMetros(distancia);. Já ficou amarelo aqui, quer dizer que estamos usando ele. E aí no lugar de usarmos a distância aqui dentro do último text vamos passar distanciaTexto. <Text style=(estilos.distancia)>( distanciaTexto )</Text>.
+
+[03:13] Salvamos e agora temos a nossa distância de volta como estava antes. Vamos colocar aqui, antes dessa distância em metros, um console.log, só para ver o que acontece, vou colocar um console.log('distanciaEmMetros');. Cada vez que aparecer esse texto quer dizer que ele chamou esse método.
+
+[03:38] Vamos dar uma olhada no nosso console, distanciaEmMetros apareceu cinco vezes porque temos cinco produtores. Agora vamos clicar aqui e chamou de novo, por quê? Toda vez que eu clico aqui em cima de um dos produtores ele está chamando novamente, isso é porque o nosso componente foi atualizado, mudou aqui a inverter selecionado e aí quando clicamos mudamos a selecionado.
+
+[04:06] E aí ele está fazendo essa distância novamente. Imagina se essa distância em metros fosse um método muito complexo que demorasse para carregar, seria bem lento para a nossa aplicação, além que poderia até consumir mais dados do usuário se isso aqui estivesse fazendo uma requisição para internet ou coisa do tipo.
+
+[04:26] O que podemos fazer para melhorar isso é usar o useMemo, vamos importar aqui junto do useReducer o useMemo. O useMemo salva esse valor na memória, podemos pegar um valor e salvar na memória para que ele não fique sendo recarregado sem necessidade.
+
+[04:50] Eu vou vir aqui em distanciaTexto = useMemo e aí eu abro parênteses e vou fazer uma função aqui que vai retornar essa distância em metros e aí o segundo parâmetro do useMemo vai ser um array com os valores que eu quero que quando eles forem alterados a distanciaTexto vai ser alterada.
+
+[05:14] É parecido com o useEffect também. O que eu quero que aconteça é que sempre que a distância for alterada, a distanciaTexto seja alterada. Se o selecionado for alterado pouco importa, não faz mal, não tem problema, não precisa ser alterado. Vou colocar aqui embaixo só para ficar mais visível e o segundo parâmetro vai ser um array com a distância, apenas isso. const distanciaTexto = useMemo( () => distanciaMetros(distancia), [distancia] };.
+
+[05:40] Vou salvar aqui e pronto, temos aqui a nossa aplicação normal. Vamos dar uma olhada como é que está aqui no nosso terminal. Esse aqui foi o último, vou selecioná-lo para vermos. E agora se eu clico não acontece mais, não está mais gerando um monte de distância em metros ela só está sendo chamada uma vez. Vou recarregar aqui e quando recarrega chama cinco vezes. Cliquei, cliquei aqui também e não atualiza o método novamente.
+
+[06:11] Agora, por exemplo, se eu adicionar o selecionado aqui no array, ele vai começar a atualizar porque o selecionado mudou. Vamos voltar aqui para o terminal e cada vez que eu clico ele vai mudar porque eu coloquei o selecionado como uma variável de dependência desse useMemo, mas eu não quero isso, só quero a distancia mesmo.
+
+[06:36] Pronto, agora eu melhorei, otimizei a performance aqui para que ele não fique chamando esse método em vão. No nosso caso aqui isso estava lá no nosso Mock, mas é só para exemplificar mesmo o uso do useMemo.
+
+[06:51] Poderíamos usar também o useCallBack que é muito semelhante ao useMemo só que ele salva na memória uma função também. Caso você queira saber mais sobre Hooks basta vir aqui na documentação do React dentro do site do React mesmo, não precisa ser do React Native, pesquisamos como Hooks e já vimos aqui que dentro de Hooks podemos vir, por exemplo, nesse menu “Hooks API Reference” do lado direito que é o setting e aqui vamos ter vários Hooks.
+
+[07:23] Aqui está o useMemo, ele retorna um valor memorizado. Lembra que você pode trocar aqui a documentação também para PT-BR, “pt-br.reactjs.org” agora estamos em português brasileiro. Ele vai receber uma função e ele também só vai recuperar o valor quando o array receber uma atualização.
+
+[07:47] Aqui na documentação também tem o useCallBack que é a mesma coisa só que para uma função. Agora vamos ver o que fizemos no nosso projeto, temos a nossa aplicação com o expandir aqui que podemos setar valores diferentes de estrelas na nossa aplicação, fazendo também esse useMemo aqui da nossa distância. Agora podemos usar a nossa distância para ordenar, por exemplo, podemos ordenar por distancia se quisermos. Também fizemos essa lista de produtores otimizada. Com isso, já vimos a maioria dos Hooks de React.
+
+@@06
+Para saber mais: Outros Hooks
+
+Neste curso, aprendemos a utilizar vários hooks e até mesmo a criar o nosso próprio hook. A documentação do React lista os hooks como sendo:
+Hooks Básicos:
+
+useState: usado para gerenciar estados;
+useEffect: usado para gerar efeitos colaterais a certas atualizações;
+useContext: usado para gerenciar contextos entre componentes distintos.
+Hooks Adicionais:
+
+useReducer: uma alternativa ao useState quando há lógicas complexas;
+useCallback: memoriza uma função, que só é atualizada quando os valores recebidos como argumento são atualizados;
+useMemo: semelhante ao useCallback, mas ao invés de função, armazena um valor;
+useRef: usado normalmente para acessar propriedades de componentes “filhos”;
+useImperativeHandle: usado para personalizar o valor da instância que será acessível aos componentes “pais”;
+useLayoutEffect: semelhante ao useEffect, porém é disparado na mesma fase que componentDidMount e componentDidUpdate. É preferível o uso do useEffect;
+useDebugValue: usado para definir um "label" em hooks customizados que irá aparecer somente em ferramentas de debug.
+Caso queira saber mais sobre cada hook do React, acesse esta página da documentação.
+
+@@07
+Desafio: Ordenar produtores!
+
+Se você quiser, neste desafio você pode fazer a ordenação dos produtores!
+Como já isolamos a distância em números, ao invés de texto, podemos ordenar os produtores por ela. Também é possível ordenar por quantidade de estrelas ou nome, por exemplo.
+
+Comece apenas ordenando por um desses parâmetros, existe até um método do JavaScript que ordena listas. Não vale ordenar por nome direto no mock, viu?
+
+Tente completar este desafio antes, mas, se tiver dúvidas ou quiser um passo a passo para saber a resolução, clique abaixo - porém indicamos fortemente que você tente realizar o desafio por conta própria antes de consultar a solução do desafio.
+
+Resolução do desafio:
+Para concluir o desafio, você só precisa ordenar a lista por um dos parâmetros. Assim, o exemplo abaixo ordena a lista por distância dentro do hook de useProdutores.
+
+import { useState, useEffect } from 'react';
+
+import { carregaProdutores } from '../servicos/carregaDados';
+
+export default function useProdutores() {
+   const [titulo, setTitulo] = useState('');
+   const [lista, setLista] = useState([]);
+
+   useEffect(() => {
+       const retorno = carregaProdutores();
+       retorno.lista.sort(
+           (produtor1, produtor2) => produtor1.distancia - produtor2.distancia,
+       );
+       setTitulo(retorno.titulo);
+       setLista(retorno.lista);
+   }, []);
+
+   return [titulo, lista];
+}COPIAR CÓDIGO
+Neste caso, usamos o método sort das listas em JavaScript, que altera a lista atual para a ordem desejada.
+
+Caso queira acessar diretamente o commit e ver as mudanças, clique aqui!
+
+https://github.com/alura-cursos/react-native-utilizando-e-criando-hooks/commit/cfcef9e81d6a05ccdb6d35b335a8bbaf263607bc
+
+@@08
+Faça como eu fiz
+
+Chegou a hora de você seguir todos os passos realizados por mim durante esta aula. Caso já tenha feito, excelente. Se ainda não, é importante que você execute o que foi visto nos vídeos para poder continuar com os próximos cursos que tenham este como pré-requisito.
+
+Continue com os seus estudos, e se houver dúvidas, não hesite em recorrer ao nosso fórum!
+
+@@09
+O que aprendemos?
+
+Nessa aula, você aprendeu a:
+Criar seu próprio Hook:
+Aprendemos a criar um Hook personalizado para o nosso aplicativo, a fim de facilitar a reutilização da função em outros pontos do código.
+Utilizar o Hook Reducer:
+Vimos como o useState pode complicar a criação de métodos complexos, portanto, para que não tenhamos problemas com funções extensas, usamos o useReducer, que simplifica lógicas extensas.
+Utilizar o Hook de Memória:
+Com o useMemo, temos a possibilidade de escolher os estados que vão ser atualizados de acordo com o método, melhorando a performance do aplicativo (uma vez que ele não precisa recarregar todos os estados sempre que algum deles mudar).
+Parabéns por chegar até aqui!
+
+@@10
+Conclusão
+
+[00:00] Parabéns por chegar até aqui e terminar mais um curso de React Native. Nesse curso criamos o nosso próprio aplicativo utilizando o React Native CLI, a interface de linha de comando do React Native mesmo, onde geramos os códigos nativos e instala o ambiente nativo de cada plataforma que queremos publicar o nosso aplicativo.
+[00:19] Nesse aplicativo utilizamos Hooks, utilizamos Hooks de estado, Hooks de efeito que são useState, o useEffect. Nós também utilizamos useReducer para criar um método customizável de alteração do nosso estado, nós também utilizamos o useMemo para salvar um valor e evitar recarregamentos desnecessários e até criamos o nosso próprio Hook aqui, criamos o Hook useProdutores para carregar os produtores lá do nosso serviço que fizemos pegando do Mock mesmo.
+
+[00:56] Esse aqui é aplicativo final, criamos uma lista de produtores onde podemos classificar com estrelas em tempo de execução, é claro, elas são aleatórias e cada vez que recarregarmos a aplicação vai mudar, mas ficou muito legal.
+
+[01:12] Com esses conceitos eu quero que você crie o seu próprio aplicativo do seu jeito e compartilhe nas redes sociais para vermos o seu progresso aqui utilizando os cursos da Alura. Não esqueça que se você tiver alguma dúvida, algum elogio ou alguma ideia você pode compartilhar lá no fórum. Pois vamos sempre olhar lá para te ajudar, para te responder.
+
+[01:36] E também agora, na próxima parte, você pode avaliar esse curso, dê uma nota, escreva um comentário para sempre melhorarmos nossos cursos aqui na Alura. Te vejo no próximo curso!
+
+@@11
+Produção deste curso
+
+Este curso foi produzido pela equipe de mobile da Alura, incluindo principalmente:
+Natalia Kelim Thiel - Instrutura;
+Caio Couto Moreira - Instrutor;
+André Oliveira Cunha - Instrutor;
+Alex Felipe - Instrutor e tech lead;
+Chris Rosa - Didática;
+Flávia de Oliveira - Produtora de Vídeo.
